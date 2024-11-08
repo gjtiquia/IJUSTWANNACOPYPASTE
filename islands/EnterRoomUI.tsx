@@ -1,11 +1,15 @@
 import { useRef, useState } from "preact/hooks";
 
 export default function EnterRoomUI() {
+    // TODO : pass in url from PageProps in parent container (from server, not in island)
+
     const inputRef = useRef<HTMLInputElement>(null);
     const [showButton, setShowButton] = useState(false);
 
     function enterRoomButtonOnClick() {
-        console.log(`enter room clicked! input: ${inputRef.current?.value}`);
+        console.log(
+            `enter room clicked! input: ${inputRef.current?.value}`,
+        );
         // TODO : Redirect to /room/[roomName]
     }
 
@@ -25,6 +29,7 @@ export default function EnterRoomUI() {
             {showButton
                 ? (
                     <EnterRoomButton
+                        roomName={inputRef.current?.value}
                         enterRoomButtonOnClick={enterRoomButtonOnClick}
                     />
                 )
@@ -34,17 +39,18 @@ export default function EnterRoomUI() {
 }
 
 function EnterRoomButton(
-    props: { enterRoomButtonOnClick: () => void },
+    props: { roomName?: string; enterRoomButtonOnClick: () => void },
 ) {
     // TODO : i wonder if its possible to be an anchor, and the href is from the props
     return (
         <div class={"pt-2"}>
-            <button
-                class={"bg-blue-500 hover:bg-blue-600 active:bg-blue-700 text-white font-bold py-1 px-8 rounded-md"}
+            <a
+                // href={"https://google.com/" + props.roomName}
+                class={"border-2 border-blue-600 bg-blue-500 hover:bg-blue-600 active:bg-blue-700 text-white font-bold py-1 px-8 rounded-md"}
                 onClick={props.enterRoomButtonOnClick}
             >
                 Enter Room
-            </button>
+            </a>
         </div>
     );
 }
