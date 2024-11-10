@@ -1,12 +1,12 @@
+import PageCenteredContainer from "../components/PageCenteredContainer.tsx";
+import PageHeader from "../components/PageHeader.tsx";
 import EnterRoomUI from "../islands/EnterRoomUI.tsx";
 
 export default function Home() {
     return (
-        <div class="min-h-dvh flex flex-col items-center p-4">
+        <PageCenteredContainer>
             <section class={"py-2"}>
-                <h1 class={"font-bold text-2xl sm:text-3xl"}>
-                    I JUST WANNA COPY PASTE
-                </h1>
+                <PageHeader />
             </section>
 
             <section class={"pt-2 pb-4 flex flex-col items-center"}>
@@ -46,6 +46,6 @@ export default function Home() {
                 <p>you will either join or create a new room</p>
                 <p>enter the same room on the other computer</p>
             </section>
-        </div>
+        </PageCenteredContainer>
     );
 }

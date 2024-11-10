@@ -1,20 +1,26 @@
 import { useRef, useState } from "preact/hooks";
+import * as _std_text from "@std/text";
 
 export default function EnterRoomUI() {
-    // TODO : pass in url from PageProps in parent container (from server, not in island)
-
     const inputRef = useRef<HTMLInputElement>(null);
-    const [showButton, setShowButton] = useState(false);
-
-    function enterRoomButtonOnClick() {
-        console.log(
-            `enter room clicked! input: ${inputRef.current?.value}`,
-        );
-        // TODO : Redirect to /room/[roomName]
-    }
+    const [roomName, setRoomName] = useState("");
 
     function onInputUpdate(inputString: string) {
-        setShowButton(inputString.length > 0);
+        // Cap at 24 characters
+        const MAX_CHAR = 24;
+        if (inputString.length > MAX_CHAR) {
+            inputString = inputString.substring(0, MAX_CHAR);
+        }
+
+        const roomName = _std_text.toKebabCase(inputString);
+        setRoomName(roomName); // Force re-render whole island
+
+        // Don't force correct " " or "-" characters, cuz might be in the middle of typing kebab-case name
+        const lastCharacter = inputString[inputString.length - 1];
+        if (lastCharacter === " " && inputString.length < MAX_CHAR) return;
+        if (lastCharacter === "-" && inputString.length < MAX_CHAR) return;
+
+        inputRef.current!.value = roomName; // Force correct input value
     }
 
     return (
@@ -26,11 +32,10 @@ export default function EnterRoomUI() {
                 class={"w-full max-w-sm border-2 border-gray-500 rounded-md text-center p-1"}
             >
             </input>
-            {showButton
+            {roomName.length > 0
                 ? (
                     <EnterRoomButton
-                        roomName={inputRef.current?.value}
-                        enterRoomButtonOnClick={enterRoomButtonOnClick}
+                        roomName={roomName}
                     />
                 )
                 : <EnterRoomNameHint />}
@@ -39,15 +44,13 @@ export default function EnterRoomUI() {
 }
 
 function EnterRoomButton(
-    props: { roomName?: string; enterRoomButtonOnClick: () => void },
+    props: { roomName: string },
 ) {
-    // TODO : i wonder if its possible to be an anchor, and the href is from the props
     return (
         <div class={"pt-2"}>
             <a
-                // href={"https://google.com/" + props.roomName}
+                href={"/r/" + props.roomName}
                 class={"border-2 border-blue-600 bg-blue-500 hover:bg-blue-600 active:bg-blue-700 text-white font-bold py-1 px-8 rounded-md"}
-                onClick={props.enterRoomButtonOnClick}
             >
                 Enter Room
             </a>

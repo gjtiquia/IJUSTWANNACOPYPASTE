@@ -22,6 +22,7 @@
     ],
     "imports": {
         "$fresh/": "https://deno.land/x/fresh@1.7.3/",
+        "@std/text": "jsr:@std/text@^1.0.8",
         "preact": "https://esm.sh/preact@10.22.0",
         "preact/": "https://esm.sh/preact@10.22.0/",
         "@preact/signals": "https://esm.sh/*@preact/signals@1.2.2",
