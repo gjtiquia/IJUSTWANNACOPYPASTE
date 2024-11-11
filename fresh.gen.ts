@@ -4,7 +4,7 @@
 
 import * as $_404 from "./routes/_404.tsx";
 import * as $_app from "./routes/_app.tsx";
-import * as $api_joke from "./routes/api/joke.ts";
+import * as $api_readRoom_roomName_ from "./routes/api/readRoom/[roomName].ts";
 import * as $index from "./routes/index.tsx";
 import * as $r_roomName_ from "./routes/r/[roomName].tsx";
 import * as $EnterRoomUI from "./islands/EnterRoomUI.tsx";
@@ -15,7 +15,7 @@ const manifest = {
   routes: {
     "./routes/_404.tsx": $_404,
     "./routes/_app.tsx": $_app,
-    "./routes/api/joke.ts": $api_joke,
+    "./routes/api/readRoom/[roomName].ts": $api_readRoom_roomName_,
     "./routes/index.tsx": $index,
     "./routes/r/[roomName].tsx": $r_roomName_,
   },

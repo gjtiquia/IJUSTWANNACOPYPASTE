@@ -2,19 +2,21 @@ import { useEffect, useRef, useState } from "preact/hooks";
 import PageCenteredContainer from "../components/PageCenteredContainer.tsx";
 import PageHeader from "../components/PageHeader.tsx";
 
-function sleep(ms: number) {
-    return new Promise((resolve) => setTimeout(resolve, ms));
-}
-
 export default function RoomIsland(
     props: { roomName: string },
 ) {
     const [isLoading, setIsLoading] = useState(false);
+    const [roomContents, setRoomContents] = useState("");
 
     useEffect(() => {
         async function onMountAsync() {
             setIsLoading(true);
-            await sleep(1500); // TODO : actually fetch
+
+            const response = await fetch(`/api/readRoom/${props.roomName}`);
+            const roomContents = await response.text();
+            console.log("roomContents:", roomContents);
+
+            setRoomContents(roomContents);
             setIsLoading(false);
         }
 
@@ -34,7 +36,9 @@ export default function RoomIsland(
                 </p>
             </section>
 
-            {isLoading ? <LoadingSection /> : <RoomSection />}
+            {isLoading
+                ? <LoadingSection />
+                : <RoomSection initialRoomContents={roomContents} />}
         </PageCenteredContainer>
     );
 }
@@ -58,12 +62,12 @@ function LoadingSection() {
     );
 }
 
-function RoomSection() {
+function RoomSection(props: { initialRoomContents: string }) {
     const textareaRef = useRef<HTMLTextAreaElement>(null);
 
     useEffect(() => {
-        console.log("RoomSection mounted!");
-        textareaRef.current?.focus();
+        textareaRef.current!.value = props.initialRoomContents;
+        textareaRef.current!.focus();
     }, []);
 
     return (
