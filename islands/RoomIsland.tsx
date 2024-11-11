@@ -74,7 +74,7 @@ function RoomSection(
 
     useEffect(() => {
         textareaRef.current!.value = props.initialRoomContents;
-        textareaRef.current!.focus();
+        textareaRef.current!.focus(); // TODO : for mobile no need
     }, []);
 
     return (
