@@ -2,7 +2,10 @@ import PageCenteredContainer from "../components/PageCenteredContainer.tsx";
 import PageHeader from "../components/PageHeader.tsx";
 import EnterRoomUI from "../islands/EnterRoomUI.tsx";
 
-export default function Home() {
+// TODO : generate random name button (adj + animal/plant😂), but better be server side to reduce page size? but then latency?
+// TODO : listen to enter key => directly enter
+
+export default function HomePage() {
     return (
         <PageCenteredContainer>
             <section class={"py-2"}>

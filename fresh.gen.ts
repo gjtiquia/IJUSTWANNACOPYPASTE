@@ -7,8 +7,8 @@ import * as $_app from "./routes/_app.tsx";
 import * as $api_joke from "./routes/api/joke.ts";
 import * as $index from "./routes/index.tsx";
 import * as $r_roomName_ from "./routes/r/[roomName].tsx";
-import * as $Counter from "./islands/Counter.tsx";
 import * as $EnterRoomUI from "./islands/EnterRoomUI.tsx";
+import * as $RoomIsland from "./islands/RoomIsland.tsx";
 import type { Manifest } from "$fresh/server.ts";
 
 const manifest = {
@@ -20,8 +20,8 @@ const manifest = {
     "./routes/r/[roomName].tsx": $r_roomName_,
   },
   islands: {
-    "./islands/Counter.tsx": $Counter,
     "./islands/EnterRoomUI.tsx": $EnterRoomUI,
+    "./islands/RoomIsland.tsx": $RoomIsland,
   },
   baseUrl: import.meta.url,
 } satisfies Manifest;
