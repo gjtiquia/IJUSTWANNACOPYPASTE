@@ -9,20 +9,19 @@ export default function RoomIsland(
     const [roomContents, setRoomContents] = useState("");
 
     useEffect(() => {
-        async function onMountAsync() {
-            setIsLoading(true);
-
-            const response = await fetch(`/api/readRoom/${props.roomName}`);
-            const roomContents = await response.text();
-            console.log("roomContents:", roomContents);
-
-            setRoomContents(roomContents);
-            setIsLoading(false);
-        }
-
-        // Reference: https://devtrium.com/posts/async-functions-useeffect
-        onMountAsync().catch(console.error);
+        pullContentsAsync().catch(console.error);
     }, []);
+
+    async function pullContentsAsync() {
+        setIsLoading(true);
+
+        const response = await fetch(`/api/readRoom/${props.roomName}`);
+        const roomContents = await response.text();
+        console.log("roomContents:", roomContents);
+
+        setRoomContents(roomContents);
+        setIsLoading(false);
+    }
 
     return (
         <PageCenteredContainer>
@@ -36,9 +35,12 @@ export default function RoomIsland(
                 </p>
             </section>
 
-            {isLoading
-                ? <LoadingSection />
-                : <RoomSection initialRoomContents={roomContents} />}
+            {isLoading ? <LoadingSection /> : (
+                <RoomSection
+                    initialRoomContents={roomContents}
+                    onRefreshClicked={pullContentsAsync}
+                />
+            )}
         </PageCenteredContainer>
     );
 }
@@ -62,7 +64,12 @@ function LoadingSection() {
     );
 }
 
-function RoomSection(props: { initialRoomContents: string }) {
+function RoomSection(
+    props: { initialRoomContents: string; onRefreshClicked: () => void },
+) {
+    // TODO : implement Send/Refresh
+    // TODO : shortcut Ctrl-Enter => Send (no need for refresh, cuz Ctrl-R is default reload page which does that😂)
+
     const textareaRef = useRef<HTMLTextAreaElement>(null);
 
     useEffect(() => {
@@ -71,12 +78,27 @@ function RoomSection(props: { initialRoomContents: string }) {
     }, []);
 
     return (
-        <section class={"w-full flex-grow flex flex-col items-center"}>
+        <section
+            class={"w-full max-w-screen-md flex-grow flex flex-col items-center gap-1"}
+        >
+            <div class={"w-full flex justify-between"}>
+                <button
+                    class={"border-2 border-blue-600 bg-blue-500 hover:bg-blue-600 active:bg-blue-700 px-4 py-1 text-white font-bold rounded-md"}
+                >
+                    Send
+                </button>
+                <button
+                    class={"px-4 py-1 border-2 border-blue-600 text-blue-500 hover:bg-blue-100 active:bg-blue-200 font-bold rounded-md"}
+                    onClick={props.onRefreshClicked}
+                >
+                    Refresh
+                </button>
+            </div>
             <textarea
                 ref={textareaRef}
                 spellcheck={false}
                 class="
-                    flex-grow w-full max-w-screen-md 
+                    flex-grow w-full 
                     border-2 border-gray-500 
                     rounded-md
                     resize-none
