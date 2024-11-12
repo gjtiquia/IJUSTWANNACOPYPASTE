@@ -1,9 +1,27 @@
-import { useRef, useState } from "preact/hooks";
+import { useEffect, useRef, useState } from "preact/hooks";
 import * as _std_text from "@std/text";
 
 export default function EnterRoomUI() {
     const inputRef = useRef<HTMLInputElement>(null);
     const [roomName, setRoomName] = useState("");
+
+    useEffect(() => {
+        inputRef.current?.focus();
+    }, []);
+
+    useEffect(() => {
+        inputRef.current?.addEventListener("keypress", onKeypressEvent);
+        return () => {
+            inputRef.current?.removeEventListener("keypress", onKeypressEvent);
+        };
+    }, [roomName]);
+
+    function onKeypressEvent(e: KeyboardEvent) {
+        if (e.key === "Enter" && roomName.length > 0) {
+            // window is not available in Deno
+            globalThis.location.href = "/r/" + roomName;
+        }
+    }
 
     function onInputUpdate(inputString: string) {
         // Cap at 24 characters
