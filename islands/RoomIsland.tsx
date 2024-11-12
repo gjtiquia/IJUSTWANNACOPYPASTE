@@ -68,14 +68,29 @@ function RoomSection(
     props: { initialRoomContents: string; onRefreshClicked: () => void },
 ) {
     // TODO : implement Send/Refresh
-    // TODO : shortcut Ctrl-Enter => Send (no need for refresh, cuz Ctrl-R is default reload page which does that😂)
 
     const textareaRef = useRef<HTMLTextAreaElement>(null);
 
     useEffect(() => {
         textareaRef.current!.value = props.initialRoomContents;
-        textareaRef.current!.focus(); // TODO : for mobile no need
+        textareaRef.current?.focus(); // TODO : for mobile no need
+
+        textareaRef.current?.addEventListener("keypress", onKeypressEvent);
+        return () => {
+            textareaRef.current?.removeEventListener(
+                "keypress",
+                onKeypressEvent,
+            );
+        };
     }, []);
+
+    function onKeypressEvent(e: KeyboardEvent) {
+        console.log(e);
+
+        if (e.key === "\n" && e.ctrlKey) {
+            console.log("Send!"); // TODO
+        }
+    }
 
     return (
         <section
@@ -83,9 +98,9 @@ function RoomSection(
         >
             <div class={"w-full flex justify-between"}>
                 <button
-                    class={"border-2 border-blue-600 bg-blue-500 hover:bg-blue-600 active:bg-blue-700 px-4 py-1 text-white font-bold rounded-md"}
+                    class={"border-2 border-blue-600 bg-blue-500 hover:bg-blue-600 active:bg-blue-700 px-4 py-1 text-white rounded-md"}
                 >
-                    Send
+                    <strong>Send</strong> (Ctrl+Enter)
                 </button>
                 <button
                     class={"px-4 py-1 border-2 border-blue-600 text-blue-500 hover:bg-blue-100 active:bg-blue-200 font-bold rounded-md"}
