@@ -23,6 +23,18 @@ export default function RoomIsland(
         setIsLoading(false);
     }
 
+    async function pushContentsAsync(text: string) {
+        setIsLoading(true);
+
+        await fetch(`/api/writeRoom/${props.roomName}`, {
+            method: "POST",
+            body: text,
+        });
+
+        setRoomContents(text);
+        setIsLoading(false);
+    }
+
     return (
         <PageCenteredContainer>
             <section class={"pb-2 flex flex-col items-center"}>
@@ -38,6 +50,7 @@ export default function RoomIsland(
             {isLoading ? <LoadingSection /> : (
                 <RoomSection
                     initialRoomContents={roomContents}
+                    onSendClicked={pushContentsAsync}
                     onRefreshClicked={pullContentsAsync}
                 />
             )}
@@ -65,10 +78,12 @@ function LoadingSection() {
 }
 
 function RoomSection(
-    props: { initialRoomContents: string; onRefreshClicked: () => void },
+    props: {
+        initialRoomContents: string;
+        onSendClicked: (text: string) => void;
+        onRefreshClicked: () => void;
+    },
 ) {
-    // TODO : implement Send/Refresh
-
     const textareaRef = useRef<HTMLTextAreaElement>(null);
 
     useEffect(() => {
@@ -85,23 +100,34 @@ function RoomSection(
     }, []);
 
     function onKeypressEvent(e: KeyboardEvent) {
-        console.log(e);
-
+        // Ctrl-Enter to send
+        // console.log(e);
         if (e.key === "\n" && e.ctrlKey) {
-            console.log("Send!"); // TODO
+            trySendContents();
         }
+    }
+
+    function trySendContents() {
+        if (textareaRef.current === null) {
+            return;
+        }
+
+        const text = textareaRef.current.value;
+        props.onSendClicked(text);
     }
 
     return (
         <section
             class={"w-full max-w-screen-md flex-grow flex flex-col items-center gap-1"}
         >
-            <div class={"w-full flex justify-between"}>
+            <div class={"w-full flex justify-between items-center"}>
                 <button
                     class={"border-2 border-blue-600 bg-blue-500 hover:bg-blue-600 active:bg-blue-700 px-4 py-1 text-white rounded-md"}
+                    onClick={trySendContents}
                 >
                     <strong>Send</strong> (Ctrl+Enter)
                 </button>
+
                 <button
                     class={"px-4 py-1 border-2 border-blue-600 text-blue-500 hover:bg-blue-100 active:bg-blue-200 font-bold rounded-md"}
                     onClick={props.onRefreshClicked}
@@ -109,6 +135,7 @@ function RoomSection(
                     Refresh
                 </button>
             </div>
+
             <textarea
                 ref={textareaRef}
                 spellcheck={false}
