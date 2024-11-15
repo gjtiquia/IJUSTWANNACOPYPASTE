@@ -90,19 +90,22 @@ function RoomSection(
         textareaRef.current!.value = props.initialRoomContents;
         textareaRef.current?.focus(); // TODO : for mobile no need
 
-        textareaRef.current?.addEventListener("keypress", onKeypressEvent);
+        textareaRef.current?.addEventListener("keydown", onKeydownEvent);
         return () => {
             textareaRef.current?.removeEventListener(
-                "keypress",
-                onKeypressEvent,
+                "keydown",
+                onKeydownEvent,
             );
         };
     }, []);
 
-    function onKeypressEvent(e: KeyboardEvent) {
-        // Ctrl-Enter to send
+    function onKeydownEvent(e: KeyboardEvent) {
         // console.log(e);
-        if (e.key === "\n" && e.ctrlKey) {
+
+        const isControlPressed = e.ctrlKey || e.metaKey; // MacOS: Command pressed => metaKey true
+        const isEnterPressed = e.key === "\n" || e.key === "Enter";
+
+        if (isControlPressed && isEnterPressed) {
             trySendContents();
         }
     }
