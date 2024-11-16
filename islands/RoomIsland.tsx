@@ -84,6 +84,8 @@ function RoomSection(
         onRefreshClicked: () => void;
     },
 ) {
+    // TODO : if contents != initialRoomContents, show that it is not sent!
+
     const textareaRef = useRef<HTMLTextAreaElement>(null);
 
     useEffect(() => {
