@@ -26,9 +26,6 @@ tailwindcss plugin: https://fresh.deno.dev/docs/concepts/ahead-of-time-builds
 deno task build
 ```
 
-// TODO: try to put the above command in the Dockerfile instead (it basically
-generates the _fresh folder)
-
 Then run the following command to build the docker image from the Dockerfile
 
 ```
