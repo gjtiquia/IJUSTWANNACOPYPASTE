@@ -29,11 +29,13 @@ deno task build
 Then run the following command to build the docker image from the Dockerfile
 
 ```
-docker build --build-arg GIT_REVISION=$(git rev-parse HEAD) -t ijustwannacopypaste .
+docker build --build-arg GIT_REVISION=$(git rev-parse HEAD) -t gjtiquia/ijustwannacopypaste .
 ```
 
 Run the following command to test the docker image in local host port 80
 
 ```
-docker run -t -i -p 80:8000 ijustwannacopypaste
+docker run -t -i -p 80:8000 gjtiquia/ijustwannacopypaste
 ```
+
+Using Docker Hub, can push the image to the public repository gjtiquia/ijustwannacopypaste
