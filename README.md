@@ -1,5 +1,7 @@
 # I JUST WANNA COPY PASTE
 
+all i wanna do is COPY AND PASTE SOME TEXT FROM ONE COMPUTER TO ANOTHER
+
 ## Fresh project
 
 This project is developed with Fresh. You can follow the Fresh "Getting Started"
