@@ -47,7 +47,11 @@ export default function EnterRoomUI() {
             <input
                 ref={inputRef}
                 onInput={(e) => onInputUpdate(e.currentTarget.value)}
-                class={"w-full max-w-sm border-2 border-gray-500 rounded-md text-center p-1"}
+                class="
+                    w-full max-w-sm border-2 border-gray-500 rounded-md text-center p-1
+                    bg-white dark:bg-stone-800
+                    text-stone-900 dark:text-stone-100
+                "
             >
             </input>
             {roomName.length > 0

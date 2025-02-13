@@ -10,6 +10,7 @@ import * as $index from "./routes/index.tsx";
 import * as $r_roomName_ from "./routes/r/[roomName].tsx";
 import * as $EnterRoomUI from "./islands/EnterRoomUI.tsx";
 import * as $RoomIsland from "./islands/RoomIsland.tsx";
+import * as $ThemeToggle from "./islands/ThemeToggle.tsx";
 import type { Manifest } from "$fresh/server.ts";
 
 const manifest = {
@@ -24,6 +25,7 @@ const manifest = {
     islands: {
         "./islands/EnterRoomUI.tsx": $EnterRoomUI,
         "./islands/RoomIsland.tsx": $RoomIsland,
+        "./islands/ThemeToggle.tsx": $ThemeToggle,
     },
     baseUrl: import.meta.url,
 } satisfies Manifest;
