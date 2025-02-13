@@ -13,19 +13,19 @@ import * as $RoomIsland from "./islands/RoomIsland.tsx";
 import type { Manifest } from "$fresh/server.ts";
 
 const manifest = {
-  routes: {
-    "./routes/_404.tsx": $_404,
-    "./routes/_app.tsx": $_app,
-    "./routes/api/readRoom/[roomName].ts": $api_readRoom_roomName_,
-    "./routes/api/writeRoom/[roomName].ts": $api_writeRoom_roomName_,
-    "./routes/index.tsx": $index,
-    "./routes/r/[roomName].tsx": $r_roomName_,
-  },
-  islands: {
-    "./islands/EnterRoomUI.tsx": $EnterRoomUI,
-    "./islands/RoomIsland.tsx": $RoomIsland,
-  },
-  baseUrl: import.meta.url,
+    routes: {
+        "./routes/_404.tsx": $_404,
+        "./routes/_app.tsx": $_app,
+        "./routes/api/readRoom/[roomName].ts": $api_readRoom_roomName_,
+        "./routes/api/writeRoom/[roomName].ts": $api_writeRoom_roomName_,
+        "./routes/index.tsx": $index,
+        "./routes/r/[roomName].tsx": $r_roomName_,
+    },
+    islands: {
+        "./islands/EnterRoomUI.tsx": $EnterRoomUI,
+        "./islands/RoomIsland.tsx": $RoomIsland,
+    },
+    baseUrl: import.meta.url,
 } satisfies Manifest;
 
 export default manifest;

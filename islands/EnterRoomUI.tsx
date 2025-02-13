@@ -70,7 +70,7 @@ function EnterRoomButton(
                 href={"/r/" + props.roomName}
                 class={"border-2 border-blue-600 bg-blue-500 hover:bg-blue-600 active:bg-blue-700 text-white font-bold py-1 px-8 rounded-md"}
             >
-                Enter Room
+                Enter Room <span class={"font-normal italic"}>{"(Enter)"}</span>
             </a>
         </div>
     );

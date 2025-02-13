@@ -54,6 +54,16 @@ export default function RoomIsland(
                     onRefreshClicked={pullContentsAsync}
                 />
             )}
+
+            <section class={"w-full max-w-md pt-1 flex justify-center"}>
+                <a
+                    target="_blank"
+                    href={"https://github.com/gjtiquia/IJUSTWANNACOPYPASTE"}
+                    class={"text-blue-500 underline hover:text-blue-600 active:text-blue-700"}
+                >
+                    github source code
+                </a>
+            </section>
         </PageCenteredContainer>
     );
 }
