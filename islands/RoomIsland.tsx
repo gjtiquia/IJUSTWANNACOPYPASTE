@@ -56,7 +56,7 @@ export default function RoomIsland(
             )}
 
             <section
-                class={"w-full max-w-md flex justify-between items-center"}
+                class={"w-full max-w-screen-md flex justify-between items-center"}
             >
                 <a
                     target="_blank"
