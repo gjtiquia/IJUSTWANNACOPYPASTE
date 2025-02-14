@@ -16,43 +16,27 @@ jobs:
         if: ${{ github.event.workflow_run.conclusion == 'success' || github.event_name == 'workflow_dispatch' }}
 
         steps:
-            - name: Get Latest Deployment ID
-              id: get-deployment
+            - name: Trigger Railway Deployment
               run: |
-                echo "Fetching latest deployment ID..."
+                echo "Triggering Railway deployment..."
                 RESPONSE=$(curl --fail --request POST \
                   --url https://backboard.railway.app/graphql/v2 \
                   --header 'Content-Type: application/json' \
                   --header 'Authorization: Bearer ${{ secrets.RAILWAY_TOKEN }}' \
-                  --data '{"query":"query { deployments(first: 1, input: { projectId: \"${{ secrets.RAILWAY_PROJECT_ID }}\", environmentId: \"${{ secrets.RAILWAY_ENVIRONMENT_ID }}\", serviceId: \"${{ secrets.RAILWAY_SERVICE_ID }}\" }) { edges { node { id } } } }"}')
+                  --data '{
+                    "query": "mutation serviceInstanceDeploy($serviceId: String!, $environmentId: String!) { serviceInstanceDeploy(serviceId: $serviceId, environmentId: $environmentId) }",
+                    "variables": {
+                      "environmentId": "${{ secrets.RAILWAY_ENVIRONMENT_ID }}",
+                      "serviceId": "${{ secrets.RAILWAY_SERVICE_ID }}"
+                    }
+                  }')
                 
-                echo "Response from get deployment:"
+                echo "Response from Railway:"
                 echo "$RESPONSE" | jq '.'
                 
-                DEPLOYMENT_ID=$(echo "$RESPONSE" | jq -r '.data.deployments.edges[0].node.id')
-                if [ -z "$DEPLOYMENT_ID" ] || [ "$DEPLOYMENT_ID" = "null" ]; then
-                  echo "Error: Could not get deployment ID from response"
+                if ! echo "$RESPONSE" | jq -e '.data.serviceInstanceDeploy' > /dev/null; then
+                  echo "Error: Deployment failed"
                   exit 1
                 fi
                 
-                echo "Found deployment ID: $DEPLOYMENT_ID"
-                echo "deployment_id=$DEPLOYMENT_ID" >> "$GITHUB_OUTPUT"
-
-            - name: Restart Deployment
-              run: |
-                echo "Restarting deployment ${{ steps.get-deployment.outputs.deployment_id }}..."
-                RESPONSE=$(curl --fail --request POST \
-                  --url https://backboard.railway.app/graphql/v2 \
-                  --header 'Content-Type: application/json' \
-                  --header 'Authorization: Bearer ${{ secrets.RAILWAY_TOKEN }}' \
-                  --data "{\"query\":\"mutation { deploymentRestart(id: \\\"${{ steps.get-deployment.outputs.deployment_id }}\\\") }\"}")
-                
-                echo "Response from restart deployment:"
-                echo "$RESPONSE" | jq '.'
-                
-                if ! echo "$RESPONSE" | jq -e '.data.deploymentRestart' > /dev/null; then
-                  echo "Error: Deployment restart failed"
-                  exit 1
-                fi
-                
-                echo "Deployment restart triggered successfully" 
+                echo "Deployment triggered successfully" 
