@@ -19,7 +19,7 @@ deno task start
 
 This will watch the project directory and restart as necessary.
 
-### Deployment
+### Manual Deployment
 
 First run the following command, since ahead of time builds are required by the
 tailwindcss plugin: https://fresh.deno.dev/docs/concepts/ahead-of-time-builds
@@ -29,6 +29,8 @@ deno task build
 ```
 
 Then run the following command to build the docker image from the Dockerfile
+
+(Ensure that Docker Desktop is running on your machine first)
 
 ```
 docker build --build-arg GIT_REVISION=$(git rev-parse HEAD) -t gjtiquia/ijustwannacopypaste .
@@ -41,3 +43,8 @@ docker run -t -i -p 80:8000 gjtiquia/ijustwannacopypaste
 ```
 
 Using Docker Hub, can push the image to the public repository gjtiquia/ijustwannacopypaste
+
+### CI/CD
+
+GitHub Actions have been setup so that Docker Hub image will be updated everytime on push to `main`
+
