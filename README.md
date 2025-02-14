@@ -46,5 +46,6 @@ Using Docker Hub, can push the image to the public repository gjtiquia/ijustwann
 
 ### CI/CD
 
-GitHub Actions have been setup so that Docker Hub image will be updated everytime on push to `main`
-
+GitHub Actions have been setup so that 
+- Docker Hub image will be updated everytime on push to `main`
+- Railway Redeploy will be triggered to use the latest docker image on Docker Hub
