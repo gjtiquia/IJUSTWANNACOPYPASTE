@@ -17,18 +17,40 @@ jobs:
             - name: Get Latest Deployment ID
               id: get-deployment
               run: |
-                DEPLOYMENT_ID=$(curl --request POST \
+                echo "Fetching latest deployment ID..."
+                RESPONSE=$(curl --fail --request POST \
                   --url https://backboard.railway.app/graphql/v2 \
                   --header 'Content-Type: application/json' \
                   --header 'Authorization: Bearer ${{ secrets.RAILWAY_TOKEN }}' \
-                  --data '{"query":"query { deployments(first: 1, input: { projectId: \"${{ secrets.RAILWAY_PROJECT_ID }}\", environmentId: \"${{ secrets.RAILWAY_ENVIRONMENT_ID }}\", serviceId: \"${{ secrets.RAILWAY_SERVICE_ID }}\" }) { edges { node { id } } } }"}' \
-                  | jq -r '.data.deployments.edges[0].node.id')
+                  --data '{"query":"query { deployments(first: 1, input: { projectId: \"${{ secrets.RAILWAY_PROJECT_ID }}\", environmentId: \"${{ secrets.RAILWAY_ENVIRONMENT_ID }}\", serviceId: \"${{ secrets.RAILWAY_SERVICE_ID }}\" }) { edges { node { id } } } }"}')
+                
+                echo "Response from get deployment:"
+                echo "$RESPONSE" | jq '.'
+                
+                DEPLOYMENT_ID=$(echo "$RESPONSE" | jq -r '.data.deployments.edges[0].node.id')
+                if [ -z "$DEPLOYMENT_ID" ] || [ "$DEPLOYMENT_ID" = "null" ]; then
+                  echo "Error: Could not get deployment ID from response"
+                  exit 1
+                fi
+                
+                echo "Found deployment ID: $DEPLOYMENT_ID"
                 echo "deployment_id=$DEPLOYMENT_ID" >> "$GITHUB_OUTPUT"
 
             - name: Restart Deployment
               run: |
-                curl --request POST \
+                echo "Restarting deployment ${{ steps.get-deployment.outputs.deployment_id }}..."
+                RESPONSE=$(curl --fail --request POST \
                   --url https://backboard.railway.app/graphql/v2 \
                   --header 'Content-Type: application/json' \
                   --header 'Authorization: Bearer ${{ secrets.RAILWAY_TOKEN }}' \
-                  --data "{\"query\":\"mutation { deploymentRestart(id: \\\"${{ steps.get-deployment.outputs.deployment_id }}\\\") }\"}" 
+                  --data "{\"query\":\"mutation { deploymentRestart(id: \\\"${{ steps.get-deployment.outputs.deployment_id }}\\\") }\"}")
+                
+                echo "Response from restart deployment:"
+                echo "$RESPONSE" | jq '.'
+                
+                if ! echo "$RESPONSE" | jq -e '.data.deploymentRestart' > /dev/null; then
+                  echo "Error: Deployment restart failed"
+                  exit 1
+                fi
+                
+                echo "Deployment restart triggered successfully" 
