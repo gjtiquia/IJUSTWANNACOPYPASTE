@@ -12,6 +12,19 @@ export default function App({ Component }: AppProps) {
                 />
                 <title>I JUST WANNA COPY PASTE</title>
                 <link rel="stylesheet" href="/styles.css" />
+
+                {/* Prevents white flash on load */}
+                <script
+                    dangerouslySetInnerHTML={{
+                        __html: `
+                            if (localStorage.theme === 'dark' || (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+                                document.documentElement.classList.add('dark')
+                            } else {
+                                document.documentElement.classList.remove('dark')
+                            }
+                        `,
+                    }}
+                />
             </head>
             <body class="bg-white dark:bg-stone-900 text-stone-900 dark:text-stone-100">
                 <Component />
