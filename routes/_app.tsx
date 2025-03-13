@@ -11,6 +11,7 @@ export default function App({ Component }: AppProps) {
                     content="width=device-width, initial-scale=1.0"
                 />
                 <title>I JUST WANNA COPY PASTE</title>
+                <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
                 <link rel="stylesheet" href="/styles.css" />
 
                 {/* Prevents white flash on load */}
