@@ -1,43 +1,24 @@
-# Astro Starter Kit: Minimal
+# IJUSTWANNACOPYPASTE
 
-```sh
-bun create astro@latest -- --template minimal
+```bash
+# TODO : this detailed usage should... be in its own file...?
+# TODO : base README should just contain basic usage
+# basic usage
+
+# POST "some text" to room named "foo"
+curl cp.gjt.io/foo -d "some text"
+
+# with new lines
+curl cp.gjt.io/foo -d $'first\nsecond'
+
+# with file (--data-binary preserves newline characters, -d does not)
+curl cp.gjt.io/foo --data-binary @filename.txt
+
+# GET from room "foo" to stdout
+curl -fsSL cp.gjt.io/foo
+
+# GET to file
+# TODO : need to test if this actually works
+# TODO : might be worth doing integration tests with a bash shell...?
+curl -LO cp.gjt.io/foo
 ```
-
-> 🧑‍🚀 **Seasoned astronaut?** Delete this file. Have fun!
-
-## 🚀 Project Structure
-
-Inside of your Astro project, you'll see the following folders and files:
-
-```text
-/
-├── public/
-├── src/
-│   └── pages/
-│       └── index.astro
-└── package.json
-```
-
-Astro looks for `.astro` or `.md` files in the `src/pages/` directory. Each page is exposed as a route based on its file name.
-
-There's nothing special about `src/components/`, but that's where we like to put any Astro/React/Vue/Svelte/Preact components.
-
-Any static assets, like images, can be placed in the `public/` directory.
-
-## 🧞 Commands
-
-All commands are run from the root of the project, from a terminal:
-
-| Command                   | Action                                           |
-| :------------------------ | :----------------------------------------------- |
-| `bun install`             | Installs dependencies                            |
-| `bun dev`             | Starts local dev server at `localhost:4321`      |
-| `bun build`           | Build your production site to `./dist/`          |
-| `bun preview`         | Preview your build locally, before deploying     |
-| `bun astro ...`       | Run CLI commands like `astro add`, `astro check` |
-| `bun astro -- --help` | Get help using the Astro CLI                     |
-
-## 👀 Want to learn more?
-
-Feel free to check [our documentation](https://docs.astro.build) or jump into our [Discord server](https://astro.build/chat).
