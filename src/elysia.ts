@@ -1,11 +1,15 @@
 import { Elysia, t } from "elysia";
 
+const store: Record<string, string> = {};
+
 const app = new Elysia()
     .get("*", "TODO: help\n")
-    .get(":room", (c) => `get room: ${c.params.room}\n`)
+    .get(":room", (c) => {
+        return store[c.params.room];
+    })
     .post(":room", async (c) => {
         const text = await c.request.text();
-        return `post room: ${c.params.room}\ndata: \n${text}\n`;
+        store[c.params.room] = text;
     });
 
 export async function handleAsync(request: Request): Promise<Response> {
