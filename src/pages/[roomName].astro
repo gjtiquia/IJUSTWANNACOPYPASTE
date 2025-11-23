@@ -1,6 +1,6 @@
 ---
-import { isCurl, handleCurl } from "../utils";
-if (isCurl(Astro.request)) return handleCurl(Astro.request);
+import { isCurl, handleCurlAsync } from "../utils";
+if (isCurl(Astro.request)) return handleCurlAsync(Astro.request);
 
 const { roomName } = Astro.params;
 ---
