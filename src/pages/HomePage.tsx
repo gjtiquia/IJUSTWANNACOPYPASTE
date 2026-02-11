@@ -4,7 +4,19 @@ import { BaseLayout } from "./BaseLayout";
 export function HomePage() {
     return (
         <BaseLayout>
-            <p>Hello World</p>
+            <form>
+                <label for="room">
+                    Room
+                    <input
+                        required
+                        type="text"
+                        // placeholder=""
+                        id="room"
+                        name="room"
+                    />
+                </label>
+                <input type="submit" value="Submit" />
+            </form>
         </BaseLayout>
     );
 }
