@@ -1,4 +1,4 @@
-import { Elysia } from "elysia";
+import { Elysia, file } from "elysia";
 import { html, Html } from "@elysiajs/html";
 import { HomePage } from "./pages/HomePage";
 
@@ -11,12 +11,14 @@ function isHelpKeyword(value: string) {
 
 const app = new Elysia()
     .use(html())
+
     .onError(({ request, error }) => {
         console.error(request.url, error);
     })
+
     .get("/", ({ request }) => {
         if (isCurl(request)) {
-            return newline("Hello World");
+            return file("./src/markdown/USAGE.md");
         } else {
             return <HomePage />;
         }
