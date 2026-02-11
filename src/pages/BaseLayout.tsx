@@ -1,6 +1,6 @@
 import { html, Html } from "@elysiajs/html";
 
-export function BaseLayout(props: { children?: JSX.Element }) {
+export function BaseLayout(props: { children?: JSX.Element | JSX.Element[] }) {
     return (
         <html lang="en">
             <head>
@@ -8,14 +8,13 @@ export function BaseLayout(props: { children?: JSX.Element }) {
                 <meta name="viewport" content="width=device-width" />
                 <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
                 <script src="/public/packages/htmx/htmx.min.js"></script>
-                <script defer src="/scripts/redirect-form.ts"></script>
                 <title>IJUSTWANNACOPYPASTE</title>
             </head>
             <body>
                 <header>
                     <h1>IJUSTWANNACOPYPASTE</h1>
                 </header>
-                {props.children}
+                <main>{props.children}</main>
             </body>
         </html>
     );

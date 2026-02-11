@@ -1,8 +1,6 @@
 import { html, Html } from "@elysiajs/html";
 import { BaseLayout } from "./BaseLayout";
 
-// TODO : transpile .ts script to .js
-
 export function HomePage() {
     return (
         <BaseLayout>
@@ -20,6 +18,7 @@ export function HomePage() {
                 </label>
                 <input type="submit" value="Submit" />
             </form>
+            <script src="/scripts/redirect-form.ts"></script>
         </BaseLayout>
     );
 }

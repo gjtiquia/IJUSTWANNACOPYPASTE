@@ -1,7 +1,8 @@
-import { Elysia, file } from "elysia";
+import { Elysia, file, t } from "elysia";
 import { html, Html } from "@elysiajs/html";
 import { HomePage } from "./pages/HomePage";
 import { staticPlugin } from "@elysiajs/static";
+import { RoomFormFragment, RoomPage } from "./pages/RoomPage";
 
 const store = new Map<string, string>();
 
@@ -50,8 +51,7 @@ const app = new Elysia()
             if (isCurl(request)) {
                 return newline(value);
             } else {
-                // TODO : html RoomPage
-                return newline(value);
+                return <RoomPage room={params.room} contents={value} />;
             }
         } else {
             if (isCurl(request)) {
@@ -60,26 +60,44 @@ const app = new Elysia()
                     newline(`Error: Room ${params.room} Not Found!`),
                 );
             } else {
-                // TODO : html RoomPage, should still go to a room, cuz user may want to input value here
-                return redirect("/");
+                return <RoomPage room={params.room} contents="" />;
             }
         }
     })
 
-    .post("/:room", async ({ params, request, status }) => {
-        if (isHelpKeyword(params.room)) {
-            return status(
-                400,
-                newline(
-                    `${params.room} is a reserved keyword and cannot be used!`,
-                ),
-            );
-        }
+    .post(
+        "/:room",
+        async ({ params, request, body, status }) => {
+            if (isHelpKeyword(params.room)) {
+                return status(
+                    400,
+                    newline(
+                        `${params.room} is a reserved keyword and cannot be used!`,
+                    ),
+                );
+            }
 
-        const text = await request.text();
-        store.set(params.room, text);
-        return newline(`room ${params.room}: ${store.get(params.room)}`);
-    })
+            let text = "";
+            if (isCurl(request)) {
+                text = await request.text();
+            } else {
+                // expecting from form submission
+                text = body.contents;
+            }
+
+            store.set(params.room, text);
+
+            if (isCurl(request)) {
+                return newline(
+                    `room ${params.room}: ${store.get(params.room)}`,
+                );
+            } else {
+                // htmx return fragment
+                return <RoomFormFragment room={params.room} contents={text} />;
+            }
+        },
+        { body: t.Object({ contents: t.String() }) },
+    )
 
     // scripts // TODO : can package this into a plugin
     .get("/scripts/*", async ({ headers, params, status, set }) => {
