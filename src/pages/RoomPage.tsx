@@ -1,6 +1,8 @@
 import { html, Html } from "@elysiajs/html";
 import { BaseLayout } from "./BaseLayout";
 
+// TODO : styling - terminal vibes?? but with native browser elements (forms + submit) and mobile support?
+
 export function RoomPage(props: { room: string; contents: string }) {
     return (
         <BaseLayout>
