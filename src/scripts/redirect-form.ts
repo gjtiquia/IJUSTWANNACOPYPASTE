@@ -13,8 +13,5 @@ document.body.addEventListener("submit", async (event) => {
         "[data-redirect-form-room]",
     ) as HTMLInputElement;
 
-    console.log("submit pressed", input.value);
-
-    // TODO :
-    // window.location.href = "/" + input.value;
+    window.location.href = "/" + input.value;
 });
