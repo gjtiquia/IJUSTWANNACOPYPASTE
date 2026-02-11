@@ -10,6 +10,10 @@ function isHelpKeyword(value: string) {
     return helpKeywords.includes(value.toLowerCase().trim());
 }
 
+// For runtime transpiling ts to js
+// https://bun.com/docs/runtime/transpiler
+const tsTranspiler = new Bun.Transpiler({ loader: "ts" });
+
 const app = new Elysia()
     .use(html())
     .use(staticPlugin())
@@ -26,10 +30,16 @@ const app = new Elysia()
         }
     })
 
-    .get("/help", ({ redirect }) => redirect("/"))
+    .get("/help", ({ redirect }) => {
+        // TODO : web users...?
+
+        return redirect("/");
+    })
 
     .get("/:room", ({ params, request, status, redirect }) => {
         if (isHelpKeyword(params.room)) {
+            // TODO : should web users have some sort of error message...?
+
             return redirect("/help");
         }
 
@@ -50,6 +60,7 @@ const app = new Elysia()
                     newline(`Error: Room ${params.room} Not Found!`),
                 );
             } else {
+                // TODO : html RoomPage, should still go to a room, cuz user may want to input value here
                 return redirect("/");
             }
         }
@@ -68,6 +79,32 @@ const app = new Elysia()
         const text = await request.text();
         store.set(params.room, text);
         return newline(`room ${params.room}: ${store.get(params.room)}`);
+    })
+
+    // scripts // TODO : can package this into a plugin
+    .get("/scripts/*", async ({ headers, params, status, set }) => {
+        if (headers["sec-fetch-dest"] !== "script")
+            return status(400, "expected from script tag");
+
+        set.headers["content-type"] = "text/javascript";
+
+        let relativeFilePath = params["*"];
+        if (
+            !relativeFilePath.endsWith(".js") &&
+            !relativeFilePath.endsWith(".ts")
+        )
+            relativeFilePath += ".ts";
+
+        const file = Bun.file("./src/scripts/" + relativeFilePath);
+
+        const fileExists = await file.exists();
+        if (!fileExists)
+            return status(404, `script ${relativeFilePath} not found`);
+
+        const ts = await file.text();
+        const js = tsTranspiler.transformSync(ts);
+
+        return js;
     })
 
     .all("/*", ({ request, status, redirect }) => {

@@ -7,7 +7,8 @@ export function BaseLayout(props: { children?: JSX.Element }) {
                 <meta charset="utf-8" />
                 <meta name="viewport" content="width=device-width" />
                 <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-                <script defer src="/public/packages/htmx/htmx.min.js"></script>
+                <script src="/public/packages/htmx/htmx.min.js"></script>
+                <script defer src="/scripts/redirect-form.ts"></script>
                 <title>IJUSTWANNACOPYPASTE</title>
             </head>
             <body>
