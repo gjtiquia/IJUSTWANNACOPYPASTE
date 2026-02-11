@@ -1,6 +1,7 @@
 import { Elysia, file } from "elysia";
 import { html, Html } from "@elysiajs/html";
 import { HomePage } from "./pages/HomePage";
+import { staticPlugin } from "@elysiajs/static";
 
 const store = new Map<string, string>();
 
@@ -11,6 +12,7 @@ function isHelpKeyword(value: string) {
 
 const app = new Elysia()
     .use(html())
+    .use(staticPlugin())
 
     .onError(({ request, error }) => {
         console.error(request.url, error);
