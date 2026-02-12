@@ -52,7 +52,7 @@ export function RoomFormFragment(props: { room: string; contents: string }) {
                     class="cursor-pointer text-stone-50/25 hover:text-stone-50/50 border-1 rounded-sm px-2"
                 />
             </p>
-            <p class="htmx-indicator"># Loading...</p>
+            <p class="htmx-indicator">$ # Loading...</p>
         </form>
     );
 }

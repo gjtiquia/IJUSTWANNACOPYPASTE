@@ -4,6 +4,8 @@ import { HomePage } from "./pages/HomePage";
 import { staticPlugin } from "@elysiajs/static";
 import { RoomFormFragment, RoomPage } from "./pages/RoomPage";
 
+// TODO : should implement some sort of guard, max capacity thing, and clear store every 5min or so
+
 const store = new Map<string, string>();
 
 const helpKeywords = ["help", "h", "man", "manual", "usage"];
