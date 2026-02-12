@@ -9,13 +9,12 @@ export async function HomePage() {
         <BaseLayout>
             <section>
                 <h2 class="font-bold">$ # Type any name here</h2>
-                <form data-redirect-form class="flex flex-wrap gap-2">
+                <form hx-post="/" class="flex flex-wrap gap-2">
                     <label for="room" class="text-nowrap hidden sm:block">
                         {"$ curl -L cp.gjt.io/"}
                     </label>
                     <span class="flex gap-2">
                         <input
-                            data-redirect-form-room
                             required
                             type="text"
                             // placeholder=""
@@ -31,7 +30,6 @@ export async function HomePage() {
                     </span>
                 </form>
                 <p class="min-h-[1.5rem]"></p>
-                <script type="module" src="/scripts/redirect-form.ts"></script>
             </section>
 
             <section class="">
@@ -41,16 +39,6 @@ export async function HomePage() {
 
                     if (index == 0 || line.startsWith("##"))
                         return <p class="font-bold">{line}</p>;
-
-                    return <p>{line}</p>;
-                })}
-            </section>
-
-            <section class="hidden">
-                <p>$ curl -L cp.gjt.io/help</p>
-                {usageTldrText.split("\n").map((line, index) => {
-                    if (line === "")
-                        return <p class="min-h-[1.5rem]">{line}</p>;
 
                     return <p>{line}</p>;
                 })}

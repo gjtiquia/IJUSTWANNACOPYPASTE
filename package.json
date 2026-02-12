@@ -9,6 +9,7 @@
     "dependencies": {
         "@elysiajs/html": "^1.4.0",
         "@elysiajs/static": "^1.4.7",
+        "@sindresorhus/slugify": "^3.0.0",
         "elysia": "latest",
         "tailwindcss": "^4.1.18"
     },

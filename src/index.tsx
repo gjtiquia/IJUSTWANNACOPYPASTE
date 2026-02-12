@@ -1,7 +1,8 @@
 import { Elysia, file, t } from "elysia";
 import { html, Html } from "@elysiajs/html";
-import { HomePage } from "./pages/HomePage";
 import { staticPlugin } from "@elysiajs/static";
+import slugify from "@sindresorhus/slugify";
+import { HomePage } from "./pages/HomePage";
 import { RoomFormFragment, RoomPage } from "./pages/RoomPage";
 
 // TODO : should implement some sort of guard, max capacity thing, and clear store every 5min or so
@@ -32,6 +33,17 @@ const app = new Elysia()
             return <HomePage />;
         }
     })
+
+    .post(
+        "/",
+        ({ body, set, redirect }) => {
+            const roomInput = body.room;
+            const roomSlug = slugify(roomInput);
+            const roomUrl = "/" + roomSlug;
+            set.headers["HX-Redirect"] = roomUrl;
+        },
+        { body: t.Object({ room: t.String() }) },
+    )
 
     .get("/help", ({ redirect }) => {
         // TODO : web users...?
