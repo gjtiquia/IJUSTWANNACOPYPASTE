@@ -20,7 +20,7 @@ export function RoomPage(props: { room: string; contents: string }) {
                     </button>
                 </p>
                 <script src="/scripts/copy-button.ts"></script>
-                <p>$ cat contents.txt</p>
+                <p>$ vim contents.txt</p>
             </section>
             <section>
                 <RoomFormFragment room={props.room} contents={props.contents} />
@@ -40,6 +40,7 @@ export function RoomFormFragment(props: { room: string; contents: string }) {
                 data-room-contents
                 name="contents"
                 class="border-1 rounded-sm border-stone-50/25 w-full px-1"
+                rows="10"
             >
                 {props.contents}
             </textarea>
