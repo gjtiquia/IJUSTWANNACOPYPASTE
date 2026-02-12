@@ -8,11 +8,12 @@ export function BaseLayout(props: { children?: JSX.Element | JSX.Element[] }) {
                 <meta name="viewport" content="width=device-width" />
                 <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
                 <script src="/public/packages/htmx/htmx.min.js"></script>
+                <link href="/public/styles.css" rel="stylesheet" />
                 <title>IJUSTWANNACOPYPASTE</title>
             </head>
             <body>
                 <header>
-                    <h1>IJUSTWANNACOPYPASTE</h1>
+                    <h1 class="text-2xl">IJUSTWANNACOPYPASTE</h1>
                 </header>
                 <main>{props.children}</main>
             </body>

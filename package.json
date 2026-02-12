@@ -2,16 +2,23 @@
     "name": "IJUSTWANNACOPYPASTE",
     "version": "1.0.50",
     "scripts": {
-        "dev": "bun run --watch src/index.tsx"
+        "dev": "bun run dev:server",
+        "dev:tailwind": "bunx @tailwindcss/cli -i ./src/input.css -o ./public/styles.css --watch",
+        "dev:server": "bun run --watch src/index.tsx"
     },
     "dependencies": {
         "@elysiajs/html": "^1.4.0",
         "@elysiajs/static": "^1.4.7",
-        "elysia": "latest"
+        "elysia": "latest",
+        "tailwindcss": "^4.1.18"
     },
     "devDependencies": {
+        "@tailwindcss/cli": "^4.1.18",
         "bun-types": "latest",
         "prettier": "^3.8.1"
     },
-    "module": "src/index.js"
+    "module": "src/index.js",
+    "trustedDependencies": [
+        "@parcel/watcher"
+    ]
 }
