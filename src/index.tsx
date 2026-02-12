@@ -46,15 +46,11 @@ const app = new Elysia()
     )
 
     .get("/help", ({ redirect }) => {
-        // TODO : web users...?
-
         return redirect("/");
     })
 
     .get("/:room", ({ params, request, status, redirect }) => {
         if (isHelpKeyword(params.room)) {
-            // TODO : should web users have some sort of error message...?
-
             return redirect("/help");
         }
 
@@ -81,7 +77,7 @@ const app = new Elysia()
 
     .post(
         "/:room",
-        async ({ params, request, status }) => {
+        async ({ params, request, status, server }) => {
             if (isHelpKeyword(params.room)) {
                 return status(
                     400,
@@ -101,8 +97,18 @@ const app = new Elysia()
 
             store.set(params.room, text);
 
-            const feedback = `successfully copied to cp.gjt.io/${params.room}`;
+            // TODO : there is a race condition for the fragment update... leading to them having the same websocket feedback...
+            // websocket update, htmx swaps fragment
+            const fragment = (
+                <RoomFormFragment
+                    room={params.room}
+                    contents={text}
+                    feedback={`cp.gjt.io/${params.room} updated`}
+                />
+            );
+            server?.publish(params.room, fragment.toString());
 
+            const feedback = `successfully copied to cp.gjt.io/${params.room}`;
             if (isCurl(request)) {
                 return newline(feedback);
             } else {
@@ -119,7 +125,20 @@ const app = new Elysia()
         // { body: t.Object({ contents: t.String() }) },
     )
 
+    .ws("/:room/ws", {
+        open(ws) {
+            console.log(`/${ws.data.params.room}/ws: open ${ws.id}`);
+            ws.subscribe(ws.data.params.room);
+        },
+        close(ws) {
+            console.log(`/${ws.data.params.room}/ws: close ${ws.id}`);
+            ws.unsubscribe(ws.data.params.room);
+        },
+        message(ws, message) {},
+    })
+
     // scripts // TODO : can package this into a plugin
+    // note : this only does transpiling and does not do bundling
     .get("/scripts/*", async ({ headers, params, status, set }) => {
         if (headers["sec-fetch-dest"] !== "script")
             return status(400, "expected from script tag");

@@ -24,7 +24,7 @@ export function RoomPage(props: { room: string; contents: string }) {
                 </p>
                 <script type="module" src="/scripts/copy-button.ts" />
             </section>
-            <section>
+            <section hx-ext="ws" ws-connect={`/${props.room}/ws`}>
                 <h2 class="font-bold">$ # Type whatever you want here</h2>
                 <p class="pb-3">$ vim contents.txt</p>
                 <div></div>
@@ -45,6 +45,7 @@ export function RoomFormFragment(props: {
 }) {
     return (
         <form
+            id="room-form"
             hx-post={"/" + props.room}
             hx-swap="outerHTML"
             class="flex flex-col gap-0.5"

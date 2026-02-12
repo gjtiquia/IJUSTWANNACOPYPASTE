@@ -11,6 +11,7 @@ export function BaseLayout(props: {
                 <meta name="viewport" content="width=device-width" />
                 <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
                 <script src="/public/packages/htmx/htmx.min.js"></script>
+                <script src="/public/packages/htmx/htmx-ext-ws.min.js"></script>
                 <link href="/public/styles.css" rel="stylesheet" />
                 <title>
                     {"IJUSTWANNACOPYPASTE " + (props.titleSuffix ?? "")}
