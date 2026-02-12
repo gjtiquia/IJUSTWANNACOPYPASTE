@@ -5,8 +5,7 @@ import { BaseLayout } from "./BaseLayout";
 
 export function RoomPage(props: { room: string; contents: string }) {
     return (
-        <BaseLayout>
-            <h2>Room: {props.room}</h2>
+        <BaseLayout titleSuffix={"| " + props.room}>
             <RoomFormFragment room={props.room} contents={props.contents} />
         </BaseLayout>
     );

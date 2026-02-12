@@ -1,6 +1,9 @@
 import { html, Html } from "@elysiajs/html";
 
-export function BaseLayout(props: { children?: JSX.Element | JSX.Element[] }) {
+export function BaseLayout(props: {
+    children?: JSX.Element | JSX.Element[];
+    titleSuffix?: string;
+}) {
     return (
         <html lang="en">
             <head>
@@ -9,11 +12,13 @@ export function BaseLayout(props: { children?: JSX.Element | JSX.Element[] }) {
                 <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
                 <script src="/public/packages/htmx/htmx.min.js"></script>
                 <link href="/public/styles.css" rel="stylesheet" />
-                <title>IJUSTWANNACOPYPASTE</title>
+                <title>IJUSTWANNACOPYPASTE {props.titleSuffix}</title>
             </head>
-            <body>
+            <body class="p-2 font-fira bg-stone-900 text-stone-50">
                 <header>
-                    <h1 class="text-2xl">IJUSTWANNACOPYPASTE</h1>
+                    <h1 class="font-bold pb-1 text-center">
+                        IJUSTWANNACOPYPASTE {props.titleSuffix}
+                    </h1>
                 </header>
                 <main>{props.children}</main>
             </body>
