@@ -1,7 +1,7 @@
 import { html, Html } from "@elysiajs/html";
 import { BaseLayout } from "./BaseLayout";
 
-// TODO : copy button
+// TODO : mobile styling
 
 export function RoomPage(props: { room: string; contents: string }) {
     return (
@@ -12,10 +12,14 @@ export function RoomPage(props: { room: string; contents: string }) {
                 </p>
                 <p>
                     $ cat contents.txt | xclip -sel clip{" "}
-                    <button class="cursor-pointer text-stone-50/25 hover:text-stone-50/50 border-1 rounded-sm px-2">
+                    <button
+                        data-copy-button
+                        class="cursor-pointer text-stone-50/25 hover:text-stone-50/50 border-1 rounded-sm px-2"
+                    >
                         Copy
                     </button>
                 </p>
+                <script src="/scripts/copy-button.ts"></script>
                 <p>$ cat contents.txt</p>
             </section>
             <section>
@@ -33,6 +37,7 @@ export function RoomFormFragment(props: { room: string; contents: string }) {
             class="flex flex-col gap-2"
         >
             <textarea
+                data-room-contents
                 name="contents"
                 class="border-1 rounded-sm border-stone-50/25 w-full px-1"
             >
