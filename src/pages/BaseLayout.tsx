@@ -12,12 +12,19 @@ export function BaseLayout(props: {
                 <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
                 <script src="/public/packages/htmx/htmx.min.js"></script>
                 <link href="/public/styles.css" rel="stylesheet" />
-                <title>IJUSTWANNACOPYPASTE {props.titleSuffix}</title>
+                <title>
+                    {"IJUSTWANNACOPYPASTE " + (props.titleSuffix ?? "")}
+                </title>
             </head>
             <body class="p-2 font-fira bg-stone-900 text-stone-50">
                 <header>
                     <h1 class="font-bold pb-1 text-center">
-                        IJUSTWANNACOPYPASTE {props.titleSuffix}
+                        <a
+                            href="https://github.com/gjtiquia/IJUSTWANNACOPYPASTE"
+                            target="_blank"
+                        >
+                            {"IJUSTWANNACOPYPASTE " + (props.titleSuffix ?? "")}
+                        </a>
                     </h1>
                 </header>
                 <main>{props.children}</main>
