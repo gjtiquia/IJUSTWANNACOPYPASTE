@@ -69,7 +69,7 @@ const app = new Elysia()
 
     .post(
         "/:room",
-        async ({ params, request, body, status }) => {
+        async ({ params, request, status }) => {
             if (isHelpKeyword(params.room)) {
                 return status(
                     400,
@@ -84,7 +84,7 @@ const app = new Elysia()
                 text = await request.text();
             } else {
                 // expecting from form submission
-                text = body.contents;
+                text = (await request.formData()).get("contents")!.toString();
             }
 
             store.set(params.room, text);
@@ -98,7 +98,7 @@ const app = new Elysia()
                 return <RoomFormFragment room={params.room} contents={text} />;
             }
         },
-        { body: t.Object({ contents: t.String() }) },
+        // { body: t.Object({ contents: t.String() }) },
     )
 
     // scripts // TODO : can package this into a plugin
