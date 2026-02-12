@@ -1,8 +1,11 @@
 # IJUSTWANNACOPYPASTE
 
-note: 
-- only text is supported
-- do not send sensitive information
+I JUST WANNA COPY AND PASTE SOME TEXT
+FROM ONE COMPUTER TO ANOTHER
+IT SHOULDNT BE THAT HARD
+
+btw:
+- pls do not send sensitive information
 
 ## basic usage
 
@@ -23,7 +26,11 @@ curl -L cp.gjt.io/foo
 # POST several lines to room "lines"
 curl -L cp.gjt.io/lines -d $'FirstLine\nSecondLine'
 
-# POST lines from file (--data-binary preserves newlines, -d does not)
-curl -L cp.gjt.io/fromFile --data-binary @file.txt
+# POST lines from file "contents.txt" 
+# (--data-binary preserves newlines, -d does not)
+curl -L cp.gjt.io/fromFile --data-binary @contents.txt
+
+# GET lines from room "foo" and write to file "contents.txt"
+curl -sL cp.gjt.io/foo > contents.txt
 
 ```
