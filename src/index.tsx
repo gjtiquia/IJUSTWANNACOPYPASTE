@@ -89,13 +89,19 @@ const app = new Elysia()
 
             store.set(params.room, text);
 
+            const feedback = `success! copied to cp.gjt.io/${params.room}`;
+
             if (isCurl(request)) {
-                return newline(
-                    `room ${params.room}: ${store.get(params.room)}`,
-                );
+                return newline(feedback);
             } else {
                 // htmx return fragment
-                return <RoomFormFragment room={params.room} contents={text} />;
+                return (
+                    <RoomFormFragment
+                        room={params.room}
+                        contents={text}
+                        feedback={feedback}
+                    />
+                );
             }
         },
         // { body: t.Object({ contents: t.String() }) },

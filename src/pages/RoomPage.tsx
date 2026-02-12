@@ -2,6 +2,8 @@ import { html, Html } from "@elysiajs/html";
 import { BaseLayout } from "./BaseLayout";
 
 // TODO : mobile styling
+// TODO : should also use websocket to auto update if someone pasted
+// TODO : should hv some feedback too, cuz sometimes user not sure if sent
 
 export function RoomPage(props: { room: string; contents: string }) {
     return (
@@ -29,7 +31,11 @@ export function RoomPage(props: { room: string; contents: string }) {
     );
 }
 
-export function RoomFormFragment(props: { room: string; contents: string }) {
+export function RoomFormFragment(props: {
+    room: string;
+    contents: string;
+    feedback?: string;
+}) {
     return (
         <form
             hx-post={"/" + props.room}
@@ -52,6 +58,13 @@ export function RoomFormFragment(props: { room: string; contents: string }) {
                     class="cursor-pointer text-stone-50/25 hover:text-stone-50/50 border-1 rounded-sm px-2"
                 />
             </p>
+            {props.feedback && (
+                <>
+                    {props.feedback.split("\n").map((line) => (
+                        <p data-room-feedback>{line}</p>
+                    ))}
+                </>
+            )}
             <p class="htmx-indicator">$ # Loading...</p>
         </form>
     );
