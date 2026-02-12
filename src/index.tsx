@@ -89,7 +89,7 @@ const app = new Elysia()
 
             store.set(params.room, text);
 
-            const feedback = `success! copied to cp.gjt.io/${params.room}`;
+            const feedback = `successfully copied to cp.gjt.io/${params.room}`;
 
             if (isCurl(request)) {
                 return newline(feedback);

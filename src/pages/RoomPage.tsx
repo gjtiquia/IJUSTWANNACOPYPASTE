@@ -21,12 +21,13 @@ export function RoomPage(props: { room: string; contents: string }) {
                         Copy
                     </button>
                 </p>
-                <script src="/scripts/copy-button.ts"></script>
+                <script src="/scripts/copy-button.ts" />
                 <p>$ vim contents.txt</p>
             </section>
             <section>
                 <RoomFormFragment room={props.room} contents={props.contents} />
             </section>
+            <script src="/scripts/room-contents-focusin-listener.ts" />
         </BaseLayout>
     );
 }
