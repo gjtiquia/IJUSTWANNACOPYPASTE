@@ -1,14 +1,20 @@
 import { html, Html } from "@elysiajs/html";
 import { BaseLayout } from "./BaseLayout";
 
-// TODO : styling - terminal vibes?? but with native browser elements (forms + submit) and mobile support?
+// TODO : copy button
 
 export function RoomPage(props: { room: string; contents: string }) {
     return (
         <BaseLayout titleSuffix={"| " + props.room}>
-            <section class="pb-2">
+            <section class="pb-2 flex flex-col gap-0.5">
                 <p>
                     $ curl -sL cp.gjt.io/{props.room} {">"} contents.txt
+                </p>
+                <p>
+                    $ cat contents.txt | xclip -sel clip{" "}
+                    <button class="cursor-pointer text-stone-50/25 hover:text-stone-50/50 border-1 rounded-sm px-2">
+                        Copy
+                    </button>
                 </p>
                 <p>$ cat contents.txt</p>
             </section>
