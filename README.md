@@ -1,5 +1,7 @@
 # IJUSTWANNACOPYPASTE
 
+## usage
+
 I JUST WANNA COPY AND PASTE SOME TEXT   
 FROM ONE COMPUTER TO ANOTHER   
 IT SHOULDNT BE THAT HARD   
@@ -7,7 +9,7 @@ IT SHOULDNT BE THAT HARD
 btw:
 - pls do not send sensitive information
 
-## basic usage
+### basic usage
 
 ```bash
 
@@ -19,7 +21,7 @@ curl -L cp.gjt.io/foo
 
 ```
 
-## advanced usage
+### advanced usage
 
 ```bash
 
