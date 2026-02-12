@@ -8,7 +8,8 @@ import { BaseLayout } from "./BaseLayout";
 export function RoomPage(props: { room: string; contents: string }) {
     return (
         <BaseLayout titleSuffix={"| " + props.room}>
-            <section class="pb-2 flex flex-col gap-0.5">
+            <section class="flex flex-col gap-0.5 pb-2">
+                <h2 class="font-bold">$ # Contents</h2>
                 <p>
                     $ curl -sL cp.gjt.io/{props.room} {">"} contents.txt
                 </p>
@@ -21,13 +22,18 @@ export function RoomPage(props: { room: string; contents: string }) {
                         Copy
                     </button>
                 </p>
-                <script src="/scripts/copy-button.ts" />
-                <p>$ vim contents.txt</p>
+                <script type="module" src="/scripts/copy-button.ts" />
             </section>
             <section>
+                <h2 class="font-bold">$ # Type whatever you want here</h2>
+                <p class="pb-3">$ vim contents.txt</p>
+                <div></div>
                 <RoomFormFragment room={props.room} contents={props.contents} />
             </section>
-            <script src="/scripts/room-contents-focusin-listener.ts" />
+            <script
+                type="module"
+                src="/scripts/room-contents-focusin-listener.ts"
+            />
         </BaseLayout>
     );
 }
@@ -41,7 +47,7 @@ export function RoomFormFragment(props: {
         <form
             hx-post={"/" + props.room}
             hx-swap="outerHTML"
-            class="flex flex-col gap-2"
+            class="flex flex-col gap-0.5"
         >
             <textarea
                 data-room-contents
@@ -51,6 +57,7 @@ export function RoomFormFragment(props: {
             >
                 {props.contents}
             </textarea>
+            <p class="font-bold">$ # Press Enter to send</p>
             <p>
                 $ curl -L cp.gjt.io/{props.room} --data-binary @contents.txt{" "}
                 <input
