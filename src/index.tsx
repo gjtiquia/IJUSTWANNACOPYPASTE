@@ -97,37 +97,37 @@ const app = new Elysia()
             if (isCurl(request)) {
                 text = await request.text();
             } else {
-                // expecting from form submission
-                text = (await request.formData()).get("contents")!.toString();
+                const formData = await request.formData();
+                const contents = formData.get("contents");
+                if (!contents)
+                    return status(400, "form does not have name 'contents'");
+
+                text = contents.toString();
             }
 
             store.set(params.room, text);
 
-            // TODO : there is a race condition for the fragment update... leading to them having the same websocket feedback...
-            // websocket update, htmx swaps fragment
+            const feedback = `cp.gjt.io/${params.room} updated`;
             const fragment = (
                 <RoomFormFragment
                     room={params.room}
                     contents={text}
-                    feedback={`cp.gjt.io/${params.room} updated`}
+                    feedback={feedback}
                 />
             );
+
+            // websocket update, htmx swaps fragment
+            // we accept that the client may receive two swaps, once from ws once from POST response, they are the same feedback so its ok
             server?.publish(params.room, fragment.toString());
 
-            const feedback = `successfully copied to cp.gjt.io/${params.room}`;
             if (isCurl(request)) {
                 return newline(feedback);
             } else {
                 // htmx return fragment
-                return (
-                    <RoomFormFragment
-                        room={params.room}
-                        contents={text}
-                        feedback={feedback}
-                    />
-                );
+                return fragment;
             }
         },
+        // we dont do type check because curl sends pure text
         // { body: t.Object({ contents: t.String() }) },
     )
 
