@@ -4,7 +4,12 @@
     "scripts": {
         "dev": "concurrently 'bun run dev:server' 'bun run dev:tailwind'",
         "dev:server": "bun run --watch src/index.tsx",
-        "dev:tailwind": "bunx @tailwindcss/cli -i ./src/input.css -o ./public/styles.css --watch"
+        "dev:tailwind": "bunx @tailwindcss/cli -i ./src/input.css -o ./public/styles.css --watch",
+        "build": "bun run build:tailwind && bun run build:tsc && bun run build:server",
+        "build:tailwind": "bunx @tailwindcss/cli -i ./src/input.css -o ./public/styles.css",
+        "build:tsc": "bunx tsc --noEmit",
+        "build:server": "bun build --compile --minify --outfile dist/server src/index.tsx",
+        "start": "./dist/server"
     },
     "dependencies": {
         "@elysiajs/html": "^1.4.0",
