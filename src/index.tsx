@@ -11,6 +11,8 @@ import { RoomFormFragment, RoomPage } from "./pages/RoomPage";
 // TODO : can probably add in SQLite, add a "delete time", sweep every 30-60s, and others like created time, last modified time, last opened time, derive the delete time from these
 // TODO : and extend the delete time every time open (which is given since we save the last opened time)
 
+// TODO : look into github actions cicd...???
+
 const store = new Map<string, string>();
 
 const helpKeywords = ["help", "h", "man", "manual", "usage"];
