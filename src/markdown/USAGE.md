@@ -34,3 +34,16 @@ curl -L cp.gjt.io/fromFile --data-binary @contents.txt
 curl -sL cp.gjt.io/foo > contents.txt
 
 ```
+
+## windows basic usage (PowerShell)
+
+```ps1
+# POST "bar" to room "foo"
+Invoke-RestMethod cp.gjt.io/foo -Method Post -Body "bar"
+
+# GET "bar" from room "foo"
+Invoke-RestMethod cp.gjt.io/foo
+```
+
+note: `curl` should be available in CMD (Command Prompt) since 2018
+

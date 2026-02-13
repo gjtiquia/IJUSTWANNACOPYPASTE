@@ -5,8 +5,6 @@ import slugify from "@sindresorhus/slugify";
 import { HomePage } from "./pages/HomePage";
 import { RoomFormFragment, RoomPage } from "./pages/RoomPage";
 
-// TODO : usage instructions for CMD / Powershell
-
 // TODO : should implement some sort of guard, max capacity thing, and clear store every 5min or so
 // TODO : can probably add in SQLite, add a "delete time", sweep every 30-60s, and others like created time, last modified time, last opened time, derive the delete time from these
 // TODO : and extend the delete time every time open (which is given since we save the last opened time)
@@ -193,9 +191,22 @@ console.log(
     `🦊 Elysia is running at ${app.server?.hostname}:${app.server?.port}`,
 );
 
+// TODO : should rename lol
 function isCurl(request: Request) {
+    const keywords = ["curl", "powershell"];
+
     const userAgent = request.headers.get("user-agent");
-    return userAgent && userAgent.toLowerCase().includes("curl");
+    if (!userAgent) {
+        return false;
+    }
+
+    for (let keyword of keywords) {
+        if (userAgent.toLowerCase().includes(keyword)) {
+            return true;
+        }
+    }
+
+    return false;
 }
 
 function newline(line: string) {
