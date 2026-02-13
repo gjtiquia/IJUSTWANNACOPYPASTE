@@ -1,9 +1,15 @@
 import { html, Html } from "@elysiajs/html";
 
-export function BaseLayout(props: {
+export async function BaseLayout(props: {
     children?: JSX.Element | JSX.Element[];
     titleSuffix?: string;
 }) {
+    // fingerprinting static files cuz cloudflare proxy automatically caches static assets, this forces to miss cache and get the most updated static files
+    let version = process.env.VERSION;
+    if (!version) {
+        version = await Bun.$`git rev-parse --short HEAD`.text();
+    }
+
     return (
         <html lang="en">
             <head>
@@ -12,7 +18,10 @@ export function BaseLayout(props: {
                 <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
                 <script src="/public/packages/htmx/htmx.min.js"></script>
                 <script src="/public/packages/htmx/htmx-ext-ws.min.js"></script>
-                <link href="/public/styles.css" rel="stylesheet" />
+                <link
+                    href={`/public/styles.css?v=${version}`}
+                    rel="stylesheet"
+                />
                 <title>
                     {"IJUSTWANNACOPYPASTE " + (props.titleSuffix ?? "")}
                 </title>
