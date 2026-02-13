@@ -5,6 +5,8 @@ import slugify from "@sindresorhus/slugify";
 import { HomePage } from "./pages/HomePage";
 import { RoomFormFragment, RoomPage } from "./pages/RoomPage";
 
+// TODO : usage instructions for CMD / Powershell
+
 // TODO : should implement some sort of guard, max capacity thing, and clear store every 5min or so
 // TODO : can probably add in SQLite, add a "delete time", sweep every 30-60s, and others like created time, last modified time, last opened time, derive the delete time from these
 // TODO : and extend the delete time every time open (which is given since we save the last opened time)
