@@ -1,10 +1,6 @@
 import { html, Html } from "@elysiajs/html";
 import { BaseLayout } from "./BaseLayout";
 
-// TODO : mobile styling
-// TODO : should also use websocket to auto update if someone pasted
-// TODO : should hv some feedback too, cuz sometimes user not sure if sent
-
 export function RoomPage(props: { room: string; contents: string }) {
     return (
         <BaseLayout titleSuffix={"| " + props.room}>
