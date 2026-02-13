@@ -18,6 +18,12 @@ function isHelpKeyword(value: string) {
 // https://bun.com/docs/runtime/transpiler
 const tsTranspiler = new Bun.Transpiler({ loader: "ts" });
 
+if (!process.env.VERSION) {
+    // use git commit as version
+    process.env.VERSION = await Bun.$`git rev-parse --short HEAD`.text();
+}
+console.log(`🦊 VERSION`, process.env.VERSION);
+
 const app = new Elysia()
     .use(html())
     .use(staticPlugin())

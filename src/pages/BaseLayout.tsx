@@ -1,14 +1,11 @@
 import { html, Html } from "@elysiajs/html";
 
-export async function BaseLayout(props: {
+export function BaseLayout(props: {
     children?: JSX.Element | JSX.Element[];
     titleSuffix?: string;
 }) {
     // fingerprinting static files cuz cloudflare proxy automatically caches static assets, this forces to miss cache and get the most updated static files
     let version = process.env.VERSION;
-    if (!version) {
-        version = await Bun.$`git rev-parse --short HEAD`.text();
-    }
 
     return (
         <html lang="en">
